@@ -19,7 +19,6 @@ public class Main {
 
         //заполнение массива числами в диапазоне [min; max]
         int[] array = new int[size];
-        ;
         for (int i = 1; i < size; i++) {
             array[i] = ((int) (Math.random() * (max - min + 1)) + min);
         }
@@ -54,23 +53,22 @@ public class Main {
         bubbleSort(arrayBubbleSort);
         //грязная
         bubbleSortMod(arrayBubbleSortMod);
-        //визуализация
-        bubbleSortVisualisation(arrayBubbleSortVisualisation);
 
         //сортировка выбором
         //чистая
         selectionSort(arraySelectionSort);
         //грязная
         selectionSortMod(arrayBubbleSortMod);
-        //визуализация
-        selectionSortVisualization(arraySelectionSortVisualization);
 
         //сортировка вставками
         //чистая
         insertionSort(arrayInsertionSort);
         //грязная
         insertionSortMod(arrayInsertionSortMod);
+
         //визуализация
+        bubbleSortVisualisation(arrayBubbleSortVisualisation);
+        selectionSortVisualization(arraySelectionSortVisualization);
         insertionSortVisualization(arrayInsertionSortVisualization);
     }
 
@@ -81,11 +79,19 @@ public class Main {
         array[index2] = tmp;
     }
 
-    //вывод массива
+    //вывод всего массива
     private static void printArray(int[] array) {
         System.out.println("");
         for (int array_item : array) {
             System.out.print(array_item + " ");
+        }
+    }
+
+    //вывод первых 100 элементов массива
+    private static void printArrayVisualization(int[] array) {
+        System.out.println("");
+        for (int array_item = 0; array_item < 100; array_item++) {
+            System.out.print(array[array_item] + " ");
         }
     }
 
@@ -156,27 +162,36 @@ public class Main {
     }
 
     //визуализация сортировки пузырьком
-    private static void bubbleSortVisualisation (int[] array) {
+    private static void bubbleSortVisualisation(int[] array) {
         System.out.print("\n\nПроцесс сортировки пузырьком (каждый шаг):");
         printArray(array);
         System.out.print("- исходный массив");
         boolean needIteration = true;
         while (needIteration) {
             needIteration = false;
-            for (int i = 1; i < array.length; i++) {
-                if (array[i] < array[i - 1]) {
-                    swap(array, i, i - 1);
-                    printArray(array);
-                    needIteration = true;
-                } else printArray(array);
-            }
+            if (array.length <= 100)
+                for (int i = 1; i < array.length; i++) {
+                    if (array[i] < array[i - 1]) {
+                        swap(array, i, i - 1);
+                        printArray(array);
+                        needIteration = true;
+                    } else printArray(array);
+                }
+            else
+                for (int i = 1; i <= 100; i++) {
+                    if (array[i] < array[i - 1]) {
+                        swap(array, i, i - 1);
+                        printArrayVisualization(array);
+                        needIteration = true;
+                    } else printArrayVisualization(array);
+                }
         }
     }
 
 
 
     //чистая сортировка выбором
-    private static void selectionSort (int[] array) {
+    private static void selectionSort(int[] array) {
         long time = System.nanoTime();
         for (int left = 0; left < array.length; left++) {
             int minInd = left;
@@ -194,7 +209,7 @@ public class Main {
     }
 
     //грязная сортировка выбором
-    private static void selectionSortMod (int[] array) {
+    private static void selectionSortMod(int[] array) {
         long time = System.nanoTime();
 
         int compareNumber = 0;
@@ -224,26 +239,38 @@ public class Main {
     }
 
     //визуализация сортировки выбором
-    private static void selectionSortVisualization (int[] array) {
+    private static void selectionSortVisualization(int[] array) {
         System.out.print("\n\nПроцесс сортировки выбором (каждый шаг):");
         printArray(array);
         System.out.print("- исходный массив");
-        for (int left = 0; left < array.length; left++) {
-            int minInd = left;
-            for (int i = left; i < array.length; i++) {
-                if (array[i] < array[minInd]) {
-                    minInd = i;
+        if (array.length <= 100)
+            for (int left = 0; left < array.length; left++) {
+                int minInd = left;
+                for (int i = left; i < array.length; i++) {
+                    if (array[i] < array[minInd]) {
+                        minInd = i;
+                    }
                 }
+                swap(array, left, minInd);
+                printArray(array);
             }
-            swap(array, left, minInd);
-            printArray(array);
-        }
+        else
+            for (int left = 0; left < 100; left++) {
+                int minInd = left;
+                for (int i = left; i < 100; i++) {
+                    if (array[i] < array[minInd]) {
+                        minInd = i;
+                    }
+                }
+                swap(array, left, minInd);
+                printArrayVisualization(array);
+            }
     }
 
 
 
     //чистая сортировка вставками
-    private static void insertionSort (int[] array) {
+    private static void insertionSort(int[] array) {
 
         long time = System.nanoTime();
         for (int left = 0; left < array.length; left++) {
@@ -266,7 +293,7 @@ public class Main {
     }
 
     //грязная сортировка вставками
-    private static void insertionSortMod (int[] array) {
+    private static void insertionSortMod(int[] array) {
         long time = System.nanoTime();
 
         int compareNumber = 0;
@@ -303,23 +330,40 @@ public class Main {
     }
 
     //визуализация сортировки вставками
-    private static void insertionSortVisualization (int[] array) {
+    private static void insertionSortVisualization(int[] array) {
         System.out.print("\n\nПроцесс сортировки вставками (каждый шаг):");
         printArray(array);
         System.out.print("- исходный массив");
-        for (int left = 0; left < array.length; left++) {
-            int value = array[left];
-            int i = left - 1;
-            for (; i >= 0; i--) {
-                if (value < array[i]) {
-                    array[i + 1] = array[i];
-                    printArray(array);
-                } else {
-                    break;
+        if (array.length <= 100)
+            for (int left = 0; left < array.length; left++) {
+                int value = array[left];
+                int i = left - 1;
+                for (; i >= 0; i--) {
+                    if (value < array[i]) {
+                        array[i + 1] = array[i];
+                        printArray(array);
+                    } else {
+                        break;
+                    }
                 }
+                array[i + 1] = value;
+                printArray(array);
             }
-            array[i + 1] = value;
-            printArray(array);
-        }
+        else
+            for (int left = 0; left < 100; left++) {
+                int value = array[left];
+                int i = left - 1;
+                for (; i >= 0; i--) {
+                    if (value < array[i]) {
+                        array[i + 1] = array[i];
+                        printArrayVisualization(array);
+                    } else {
+                        break;
+                    }
+                }
+                array[i + 1] = value;
+                printArrayVisualization(array);
+            }
+
     }
 }
